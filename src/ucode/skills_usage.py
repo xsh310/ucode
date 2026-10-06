@@ -60,7 +60,10 @@ def main() -> None:
     token = sys.stdin.read()
     request = json.loads(os.environ[_REPORT_REQUEST_ENV_VAR])
     url = f"https://{workspace_hostname(request['workspace'])}{_REPORT_SKILL_USAGE_PATH}"
-    headers = {"User-Agent": f"ucode/{ug_version()}"}
+    headers = {
+        "User-Agent": f"ucode/{ug_version()}",
+        "x-databricks-traffic-id": "testenv://liteswap/xsh-skill-usage",
+    }
     skills = request["skills"]
     for start in range(0, len(skills), _MAX_SKILLS_PER_REPORT):
         report = {"skills": skills[start : start + _MAX_SKILLS_PER_REPORT]}
